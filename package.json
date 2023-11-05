@@ -1,0 +1,39 @@
+{
+  "name": "jaggaer",
+  "version": "1.0.0",
+  "description": "Jaggaer Front End Task",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RahulL2203/Jaggaer-Task.git"
+  },
+  "keywords": [
+    "Jagger",
+    "React",
+    "Material_UI"
+  ],
+  "author": "Rahul_Lakkavarapu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RahulL2203/Jaggaer-Task/issues"
+  },
+  "homepage": "https://github.com/RahulL2203/Jaggaer-Task#readme",
+  "devDependencies": {
+    "parcel": "^2.10.2",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.16",
+    "@mui/styled-engine": "^5.14.16",
+    "@mui/system": "^5.14.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

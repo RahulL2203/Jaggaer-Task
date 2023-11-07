@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-
 import packageicon from '/src/resources/icons/package.svg'
 // import star from '/src/resources/icons/star.svg'
 // import starfilled from '/src/resources/icons/star-filled.svg'
@@ -15,7 +14,7 @@ import Header from './Header';
 const Body = () => {
 
   const [productCount,setProductCount] = useState(null);
-  const [cartCount,setCartCount] = useState(1)
+  const [cartCount,setCartCount] = useState(null)
 
   const handleFieldChange = (e)=>{
     if(productCount!==null){
@@ -25,7 +24,7 @@ const Body = () => {
 
   const handleAddButton = (cartCount)=>{
       setCartCount(cartCount+1);
-      console.log(cartCount)
+  
   }
   
   const {title,
@@ -39,11 +38,11 @@ const Body = () => {
          unit}= jsondata.article;
   return (
     <Box>
-        <Header value={cartCount}/>
-          <Box sx={{ flexGrow: 1 }}>
+        <Header cartCount={cartCount}/>
+          <Box sx={{ flexGrow: 1}}>
             <Grid container spacing={2} >
-
-             <Grid xs={1} sx={{display:"flex", alignItems:"start", justifyContent:"start" ,flexDirection:"column"}} >
+      
+             <Grid item  md={2} xs={12} sm={2}  sx={{display:"flex", alignItems:"start", justifyContent:"start" ,flexDirection:"column", }} >
                <Box  sx={{width:'100%' , maxWidth:70, height:70, border: "1px solid lightgray" , borderRadius:1, padding:1,marginTop:3, display:"flex", alignItems:"center", justifyContent:"center"}}>
                  <img src={packageicon}
                  alt="Your Image" 
@@ -58,7 +57,7 @@ const Body = () => {
               </Grid>
 
         
-             <Grid xs={3} sx={{ display: "flex", alignItems: "center", justifyContent: "start" }}>
+             <Grid item md={3} xs={12} sm={6} sx={{ display: "flex", alignItems: "center", justifyContent: "start" }}>
                <Box sx={{ width: '100%', maxWidth: 270, height: 270, border: "1px solid lightgray", borderRadius: 1, marginTop: 2, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
                   <img src={packageicon} alt="Your Image" style={{ maxWidth: '80px', height: 'auto' }} />
                    <img src={zoomin} alt="Zoom In" style={{ position: 'absolute', bottom: 0, right: 0, maxWidth: '20px', padding: '6px' }} />
@@ -68,9 +67,9 @@ const Body = () => {
 
 
 
-              <Grid xs={4} sx={{display:"flex", justifyContent:"start" ,flexDirection:"column"}}>
+              <Grid item sm={'auto'}  xs={12} sx={{display:"flex", justifyContent:"start" ,flexDirection:"column"}}>
           
-                 <Box  sx={{width:"auto" , height:200, marginTop:3, display:"flex", alignItems:"Start", justifyContent:"center"}}>
+                 <Box  sx={{width:"auto" , height:{xs:'auto',md:200}, marginTop:3,marginLeft:2, display:"flex", alignItems:"Start", justifyContent:"center"}}>
         
                   <Typography variant="inherit" >
                     <span>{title}</span>
@@ -99,12 +98,13 @@ const Body = () => {
                           <Rating name="half-rating-read" defaultValue={stars} precision={0.5} readOnly />
                         </Stack>
                             <br/>
-                            <Box style={{ display: 'flex', alignItems: 'center' }}>
+                            <Box style={{ display: 'flex',flexWrap:{xs:'wrap',md:'nowrap'} ,alignItems: 'center' }}>
                               <span>{price} </span>
                               <span>{currency} </span>{"+" + " " + transport_costs.toFixed() + ".00"}
-                              {currency} Shipping
+                              {currency} Shipping 
                               <img src={discount} alt="discount-icon" 
                               style={{ maxWidth: '20px', height: 'auto', padding: '3px' }} />
+                           
                             </Box>
                             <br />
                                 <span>all prices incl.{vat_percent} % taxes</span>
@@ -113,7 +113,7 @@ const Body = () => {
                  </Box>
             
                  <Box  
-                    sx={{width:"auto" , height:70, marginTop:1, display:"flex", alignItems:"center", justifyContent:"start",}}>
+                    sx={{width:"auto" , height:70, marginTop:1,marginLeft:2, display:"flex", alignItems:"center", justifyContent:"start",}}>
 
                     <TextField 
                       label="Product Count"
@@ -131,16 +131,7 @@ const Body = () => {
                         >
                     Add Item
                     </Button>
-                    <Badge
-                          badgeContent={cartCount}
-                          anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                          }}
-                          color='secondary'
-                          sx={{ fontSize: '8px' }}
-                        />
-                 
+                    
                   </Box>
 
               </Grid>

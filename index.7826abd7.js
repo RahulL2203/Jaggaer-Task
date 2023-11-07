@@ -27190,7 +27190,7 @@ module.exports = require("ef03b89c8fe2794e");
 
 },{}],"giGSC":[function() {},{}],"40376":[function(require,module,exports) {
 /**
- * @mui/material v5.14.16
+ * @mui/material v5.14.17
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -30150,7 +30150,7 @@ function experimental_sx() {
 
 },{"@mui/utils":"cttLn","@mui/styled-engine":"eTow5","./GlobalStyles":"7Xt14","./borders":false,"./breakpoints":"jN5Vx","./compose":false,"./display":false,"./flexbox":false,"./cssGrid":false,"./palette":false,"./positions":false,"./shadows":false,"./sizing":false,"./spacing":false,"./style":"juhi3","./typography":false,"./styleFunctionSx":"bRwpN","./getThemeValue":false,"./Box":"doQe9","./createBox":"bc03s","./createStyled":"csGHh","./styled":false,"./createTheme":"dmLcy","./createTheme/createBreakpoints":false,"./createTheme/createSpacing":false,"./createTheme/shape":false,"./useThemeProps":"eZlKz","./useTheme":"h9QTR","./useThemeWithoutDefault":false,"./colorManipulator":"cIbr0","./ThemeProvider":false,"./cssVars/createCssVarsProvider":false,"./cssVars/createGetCssVar":false,"./cssVars/cssVarsParser":false,"./cssVars/prepareCssVars":false,"./cssVars/createCssVarsTheme":false,"./responsivePropType":false,"./Container/createContainer":"21HQz","./Container":false,"./Unstable_Grid/Grid":false,"./Unstable_Grid":false,"./Stack/Stack":false,"./Stack":"6SnxG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eTow5":[function(require,module,exports) {
 /**
- * @mui/styled-engine v5.14.16
+ * @mui/styled-engine v5.14.17
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -40206,7 +40206,7 @@ function useBadge(parameters) {
 
 },{"@mui/utils":"cttLn","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"656dE":[function(require,module,exports) {
 /**
- * @mui/base v5.0.0-beta.22
+ * @mui/base v5.0.0-beta.23
  *
  * @license MIT
  * This source code is licensed under the MIT license found in the
@@ -40220,7 +40220,6 @@ parcelHelpers.export(exports, "NoSsr", ()=>(0, _noSsr.NoSsr));
 parcelHelpers.export(exports, "Popper", ()=>(0, _popper.Popper));
 parcelHelpers.export(exports, "Portal", ()=>(0, _portal.Portal));
 parcelHelpers.export(exports, "TextareaAutosize", ()=>(0, _textareaAutosize.TextareaAutosize));
-parcelHelpers.export(exports, "useDropdown", ()=>(0, _useDropdown.useDropdown));
 var _utils = require("./utils");
 parcelHelpers.exportAll(_utils, exports);
 var _badge = require("./Badge");
@@ -40281,6 +40280,7 @@ parcelHelpers.exportAll(_useBadge, exports);
 var _useButton = require("./useButton");
 parcelHelpers.exportAll(_useButton, exports);
 var _useDropdown = require("./useDropdown");
+parcelHelpers.exportAll(_useDropdown, exports);
 var _useInput = require("./useInput");
 parcelHelpers.exportAll(_useInput, exports);
 var _useMenu = require("./useMenu");
@@ -41290,7 +41290,8 @@ function useModal(parameters) {
             // clicking a checkbox to check it, hitting a button to submit a form,
             // and hitting left arrow to move the cursor in a text input etc.
             // Only special HTML elements have these default behaviors.
-            if (event.key !== "Escape" || !isTopModal()) return;
+            if (event.key !== "Escape" || event.which === 229 || // Wait until IME is settled.
+            !isTopModal()) return;
             if (!disableEscapeKeyDown) {
                 // Swallow the event, in case someone is listening for the escape key on the body.
                 event.stopPropagation();

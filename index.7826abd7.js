@@ -3001,7 +3001,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","@mui/material":"40376","./src/resources/Components/Body":"2LWXa","./src/resources/Components/Details":"iaSWX","/index.css":"giGSC"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","/index.css":"giGSC","@mui/material":"40376","./src/resources/Components/Body":"2LWXa","./src/resources/Components/Details":"iaSWX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iTorj":[function(require,module,exports) {
 "use strict";
 module.exports = require("ee51401569654d91");
 
@@ -27188,175 +27188,7 @@ module.exports = require("ef03b89c8fe2794e");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{}],"gkKU3":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"km3Ru":[function(require,module,exports) {
-"use strict";
-var Refresh = require("7422ead32dcc1e6b");
-function debounce(func, delay) {
-    {
-        let timeout = undefined;
-        let lastTime = 0;
-        return function(args) {
-            // Call immediately if last call was more than the delay ago.
-            // Otherwise, set a timeout. This means the first call is fast
-            // (for the common case of a single update), and subsequent updates
-            // are batched.
-            let now = Date.now();
-            if (now - lastTime > delay) {
-                lastTime = now;
-                func.call(null, args);
-            } else {
-                clearTimeout(timeout);
-                timeout = setTimeout(function() {
-                    timeout = undefined;
-                    lastTime = Date.now();
-                    func.call(null, args);
-                }, delay);
-            }
-        };
-    }
-}
-var enqueueUpdate = debounce(function() {
-    Refresh.performReactRefresh();
-}, 30);
-// Everthing below is either adapted or copied from
-// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
-// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
-module.exports.prelude = function(module1) {
-    window.$RefreshReg$ = function(type, id) {
-        Refresh.register(type, module1.id + " " + id);
-    };
-    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
-};
-module.exports.postlude = function(module1) {
-    if (isReactRefreshBoundary(module1.exports)) {
-        registerExportsForReactRefresh(module1);
-        if (module1.hot) {
-            module1.hot.dispose(function(data) {
-                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
-                data.prevExports = module1.exports;
-            });
-            module1.hot.accept(function(getParents) {
-                var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports;
-                // Since we just executed the code for it, it's possible
-                // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports);
-                // It can also become ineligible if its exports are incompatible
-                // with the previous exports.
-                // For example, if you add/remove/change exports, we'll want
-                // to re-execute the importing modules, and force those components
-                // to re-render. Similarly, if you convert a class component
-                // to a function, we want to invalidate the boundary.
-                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
-                if (isNoLongerABoundary || didInvalidate) {
-                    // We'll be conservative. The only case in which we won't do a full
-                    // reload is if all parent modules are also refresh boundaries.
-                    // In that case we'll add them to the current queue.
-                    var parents = getParents();
-                    if (parents.length === 0) {
-                        // Looks like we bubbled to the root. Can't recover from that.
-                        window.location.reload();
-                        return;
-                    }
-                    return parents;
-                }
-                enqueueUpdate();
-            });
-        }
-    }
-};
-function isReactRefreshBoundary(exports) {
-    if (Refresh.isLikelyComponentType(exports)) return true;
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    return false;
-    var hasExports = false;
-    var areAllExportsComponents = true;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        hasExports = true;
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
-        return false;
-        var exportValue = exports[key];
-        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
-    }
-    return hasExports && areAllExportsComponents;
-}
-function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
-    var prevSignature = getRefreshBoundarySignature(prevExports);
-    var nextSignature = getRefreshBoundarySignature(nextExports);
-    if (prevSignature.length !== nextSignature.length) return true;
-    for(var i = 0; i < nextSignature.length; i++){
-        if (prevSignature[i] !== nextSignature[i]) return true;
-    }
-    return false;
-}
-// When this signature changes, it's unsafe to stop at this refresh boundary.
-function getRefreshBoundarySignature(exports) {
-    var signature = [];
-    signature.push(Refresh.getFamilyByType(exports));
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return signature;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        if (key === "__esModule") continue;
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        signature.push(key);
-        signature.push(Refresh.getFamilyByType(exportValue));
-    }
-    return signature;
-}
-function registerExportsForReactRefresh(module1) {
-    var exports = module1.exports, id = module1.id;
-    Refresh.register(exports, id + " %exports%");
-    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
-    // (This is important for legacy environments.)
-    return;
-    let isESM = "__esModule" in exports;
-    for(var key in exports){
-        var desc = Object.getOwnPropertyDescriptor(exports, key);
-        if (desc && desc.get && !isESM) continue;
-        var exportValue = exports[key];
-        var typeID = id + " %exports% " + key;
-        Refresh.register(exportValue, typeID);
-    }
-}
-
-},{"7422ead32dcc1e6b":"786KC"}],"40376":[function(require,module,exports) {
+},{}],"giGSC":[function() {},{}],"40376":[function(require,module,exports) {
 /**
  * @mui/material v5.14.16
  *
@@ -28151,7 +27983,37 @@ function chainPropTypes(propType1, propType2) {
     };
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dV1xi":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gkKU3":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || dest.hasOwnProperty(key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"dV1xi":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "isPlainObject", ()=>isPlainObject);
@@ -54154,7 +54016,7 @@ $RefreshReg$(_c, "Body");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","/src/resources/icons/package.svg":"asvwk","@mui/material":"40376","/src/resources/data/data.json":"gmNau","/src/resources/icons/discount.svg":"iwzmS","@mui/material/SvgIcon":"egDpG","@mui/icons-material/Add":"jBiYR","/src/resources/icons/zoom-in.svg":"aN75P","./Header":"7zzs2"}],"asvwk":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","/src/resources/icons/package.svg":"asvwk","/src/resources/icons/discount.svg":"iwzmS","/src/resources/icons/zoom-in.svg":"aN75P","@mui/material":"40376","/src/resources/data/data.json":"gmNau","@mui/material/SvgIcon":"egDpG","@mui/icons-material/Add":"jBiYR","./Header":"7zzs2","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"asvwk":[function(require,module,exports) {
 module.exports = require("d9f323a1869e6ebc").getBundleURL("lly8x") + "package.a5db7289.svg" + "?" + Date.now();
 
 },{"d9f323a1869e6ebc":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -54192,13 +54054,16 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"gmNau":[function(require,module,exports) {
-module.exports = JSON.parse('{"article":{"id":128492,"title":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","description_short":"Vestibulum a velit mauris. Vestibulum sollicitudin tempor ipsum in dictum. Donec quis suscipit augue, quis tempus turpis.","description_long":"Maecenas pretium mi a ex lacinia volutpat. Cras gravida odio ut libero blandit ornare. Pellentesque et tempus lacus, eu viverra orci. Quisque suscipit felis vitae ligula finibus efficitur. Sed in fringilla nulla. Sed dictum tortor et lectus porta, sit amet rhoncus sem consectetur. Duis eleifend lectus id scelerisque auctor. Morbi posuere arcu lacus, ac euismod nulla placerat nec. Proin et accumsan nisl. Sed imperdiet lacus ac commodo pharetra.\\n\\nSuspendisse et dui ornare, laoreet mauris vel, ullamcorper nunc. Suspendisse a libero id justo condimentum fermentum non id ex. Phasellus aliquam magna ac eleifend molestie. Aliquam tincidunt elit non libero posuere, a feugiat orci gravida. Donec tempor urna in nisl aliquet convallis.\\n\\nDuis nec vestibulum odio. Maecenas lobortis sit amet nunc ac porttitor. Maecenas ultrices urna sed mattis faucibus. Phasellus dui turpis, mattis eget lectus a, volutpat sagittis diam. Vestibulum dictum efficitur magna nec hendrerit. Proin a cursus sapien, rhoncus viverra lacus. Nullam commodo dapibus turpis, at sagittis tellus tincidunt eu. Fusce viverra porta leo. Vivamus in ipsum nec elit tincidunt tristique.","supplier_name":"Conntech GmbH","supplier_link":"http://google.com","stars":3.2,"price":2598.9,"price_breaks":{"20":2398.9,"50":2109.9,"100":1999.9},"currency":"EUR","transport_costs":34.9,"vat_percent":10,"images":["image1.jpg","image2.jpg","image3.png"],"minimum_order_quantity":1,"delivery_time":12,"unit":"PCE","features":{"Feature 1":"Green","Feature 2":"20cm","Feature 3":"XL"},"attachments":[{"file_label":"Data Sheet 101","file_size":2049,"file_name":"data_sheet.tgz","file_link":"https://google.com/data_sheet.tgz"},{"file_label":"Data Sheet 201","file_size":29341,"file_name":"data_sheet_2.tgz","file_link":"https://google.com/data_sheet_2.tgz"}],"keywords":["Lorem Ipsum","Dolor","Sit"]},"cart":{"items":5,"total_costs":10829.9},"user":{"favorite_articles":[128299,128492,399123]}}');
-
 },{}],"iwzmS":[function(require,module,exports) {
 module.exports = require("ee448abab459120e").getBundleURL("lly8x") + "discount.4b7317ab.svg" + "?" + Date.now();
 
-},{"ee448abab459120e":"lgJ39"}],"jBiYR":[function(require,module,exports) {
+},{"ee448abab459120e":"lgJ39"}],"aN75P":[function(require,module,exports) {
+module.exports = require("9afd4b01d1058316").getBundleURL("lly8x") + "zoom-in.878aec10.svg" + "?" + Date.now();
+
+},{"9afd4b01d1058316":"lgJ39"}],"gmNau":[function(require,module,exports) {
+module.exports = JSON.parse('{"article":{"id":128492,"title":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","description_short":"Vestibulum a velit mauris. Vestibulum sollicitudin tempor ipsum in dictum. Donec quis suscipit augue, quis tempus turpis.","description_long":"Maecenas pretium mi a ex lacinia volutpat. Cras gravida odio ut libero blandit ornare. Pellentesque et tempus lacus, eu viverra orci. Quisque suscipit felis vitae ligula finibus efficitur. Sed in fringilla nulla. Sed dictum tortor et lectus porta, sit amet rhoncus sem consectetur. Duis eleifend lectus id scelerisque auctor. Morbi posuere arcu lacus, ac euismod nulla placerat nec. Proin et accumsan nisl. Sed imperdiet lacus ac commodo pharetra.\\n\\nSuspendisse et dui ornare, laoreet mauris vel, ullamcorper nunc. Suspendisse a libero id justo condimentum fermentum non id ex. Phasellus aliquam magna ac eleifend molestie. Aliquam tincidunt elit non libero posuere, a feugiat orci gravida. Donec tempor urna in nisl aliquet convallis.\\n\\nDuis nec vestibulum odio. Maecenas lobortis sit amet nunc ac porttitor. Maecenas ultrices urna sed mattis faucibus. Phasellus dui turpis, mattis eget lectus a, volutpat sagittis diam. Vestibulum dictum efficitur magna nec hendrerit. Proin a cursus sapien, rhoncus viverra lacus. Nullam commodo dapibus turpis, at sagittis tellus tincidunt eu. Fusce viverra porta leo. Vivamus in ipsum nec elit tincidunt tristique.","supplier_name":"Conntech GmbH","supplier_link":"http://google.com","stars":3.2,"price":2598.9,"price_breaks":{"20":2398.9,"50":2109.9,"100":1999.9},"currency":"EUR","transport_costs":34.9,"vat_percent":10,"images":["image1.jpg","image2.jpg","image3.png"],"minimum_order_quantity":1,"delivery_time":12,"unit":"PCE","features":{"Feature 1":"Green","Feature 2":"20cm","Feature 3":"XL"},"attachments":[{"file_label":"Data Sheet 101","file_size":2049,"file_name":"data_sheet.tgz","file_link":"https://google.com/data_sheet.tgz"},{"file_label":"Data Sheet 201","file_size":29341,"file_name":"data_sheet_2.tgz","file_link":"https://google.com/data_sheet_2.tgz"}],"keywords":["Lorem Ipsum","Dolor","Sit"]},"cart":{"items":5,"total_costs":10829.9},"user":{"favorite_articles":[128299,128492,399123]}}');
+
+},{}],"jBiYR":[function(require,module,exports) {
 "use strict";
 "use client";
 var _interopRequireDefault = require("18a23610d276482a");
@@ -54235,10 +54100,7 @@ Object.defineProperty(exports, "default", {
 });
 var _utils = require("21f2d1dcc9f0020d");
 
-},{"21f2d1dcc9f0020d":"9bp9M"}],"aN75P":[function(require,module,exports) {
-module.exports = require("9afd4b01d1058316").getBundleURL("lly8x") + "zoom-in.878aec10.svg" + "?" + Date.now();
-
-},{"9afd4b01d1058316":"lgJ39"}],"7zzs2":[function(require,module,exports) {
+},{"21f2d1dcc9f0020d":"9bp9M"}],"7zzs2":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$c21c = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -54437,7 +54299,7 @@ $RefreshReg$(_c, "Header");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@mui/material":"40376","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","/src/resources/data/data.json":"gmNau","/src/resources/icons/favorite.svg":"6rA3S","/src/resources/icons/facts-soft.svg":"dRMca","/src/resources/icons/cart.svg":"ay8hT","@mui/system":"Q0Zql"}],"6rA3S":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@mui/material":"40376","/src/resources/data/data.json":"gmNau","/src/resources/icons/favorite.svg":"6rA3S","/src/resources/icons/facts-soft.svg":"dRMca","/src/resources/icons/cart.svg":"ay8hT","@mui/system":"Q0Zql","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"6rA3S":[function(require,module,exports) {
 module.exports = require("a4111d4b042f211b").getBundleURL("lly8x") + "favorite.18c32378.svg" + "?" + Date.now();
 
 },{"a4111d4b042f211b":"lgJ39"}],"dRMca":[function(require,module,exports) {
@@ -54446,7 +54308,145 @@ module.exports = require("b1a451f6c92fea2e").getBundleURL("lly8x") + "facts-soft
 },{"b1a451f6c92fea2e":"lgJ39"}],"ay8hT":[function(require,module,exports) {
 module.exports = require("c84795d97f2d06f9").getBundleURL("lly8x") + "cart.2147ac2b.svg" + "?" + Date.now();
 
-},{"c84795d97f2d06f9":"lgJ39"}],"iaSWX":[function(require,module,exports) {
+},{"c84795d97f2d06f9":"lgJ39"}],"km3Ru":[function(require,module,exports) {
+"use strict";
+var Refresh = require("7422ead32dcc1e6b");
+function debounce(func, delay) {
+    {
+        let timeout = undefined;
+        let lastTime = 0;
+        return function(args) {
+            // Call immediately if last call was more than the delay ago.
+            // Otherwise, set a timeout. This means the first call is fast
+            // (for the common case of a single update), and subsequent updates
+            // are batched.
+            let now = Date.now();
+            if (now - lastTime > delay) {
+                lastTime = now;
+                func.call(null, args);
+            } else {
+                clearTimeout(timeout);
+                timeout = setTimeout(function() {
+                    timeout = undefined;
+                    lastTime = Date.now();
+                    func.call(null, args);
+                }, delay);
+            }
+        };
+    }
+}
+var enqueueUpdate = debounce(function() {
+    Refresh.performReactRefresh();
+}, 30);
+// Everthing below is either adapted or copied from
+// https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
+// MIT License - Copyright (c) Facebook, Inc. and its affiliates.
+module.exports.prelude = function(module1) {
+    window.$RefreshReg$ = function(type, id) {
+        Refresh.register(type, module1.id + " " + id);
+    };
+    window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
+};
+module.exports.postlude = function(module1) {
+    if (isReactRefreshBoundary(module1.exports)) {
+        registerExportsForReactRefresh(module1);
+        if (module1.hot) {
+            module1.hot.dispose(function(data) {
+                if (Refresh.hasUnrecoverableErrors()) window.location.reload();
+                data.prevExports = module1.exports;
+            });
+            module1.hot.accept(function(getParents) {
+                var prevExports = module1.hot.data.prevExports;
+                var nextExports = module1.exports;
+                // Since we just executed the code for it, it's possible
+                // that the new exports make it ineligible for being a boundary.
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports);
+                // It can also become ineligible if its exports are incompatible
+                // with the previous exports.
+                // For example, if you add/remove/change exports, we'll want
+                // to re-execute the importing modules, and force those components
+                // to re-render. Similarly, if you convert a class component
+                // to a function, we want to invalidate the boundary.
+                var didInvalidate = shouldInvalidateReactRefreshBoundary(prevExports, nextExports);
+                if (isNoLongerABoundary || didInvalidate) {
+                    // We'll be conservative. The only case in which we won't do a full
+                    // reload is if all parent modules are also refresh boundaries.
+                    // In that case we'll add them to the current queue.
+                    var parents = getParents();
+                    if (parents.length === 0) {
+                        // Looks like we bubbled to the root. Can't recover from that.
+                        window.location.reload();
+                        return;
+                    }
+                    return parents;
+                }
+                enqueueUpdate();
+            });
+        }
+    }
+};
+function isReactRefreshBoundary(exports) {
+    if (Refresh.isLikelyComponentType(exports)) return true;
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    return false;
+    var hasExports = false;
+    var areAllExportsComponents = true;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        hasExports = true;
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) // Don't invoke getters for CJS as they may have side effects.
+        return false;
+        var exportValue = exports[key];
+        if (!Refresh.isLikelyComponentType(exportValue)) areAllExportsComponents = false;
+    }
+    return hasExports && areAllExportsComponents;
+}
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+    var prevSignature = getRefreshBoundarySignature(prevExports);
+    var nextSignature = getRefreshBoundarySignature(nextExports);
+    if (prevSignature.length !== nextSignature.length) return true;
+    for(var i = 0; i < nextSignature.length; i++){
+        if (prevSignature[i] !== nextSignature[i]) return true;
+    }
+    return false;
+}
+// When this signature changes, it's unsafe to stop at this refresh boundary.
+function getRefreshBoundarySignature(exports) {
+    var signature = [];
+    signature.push(Refresh.getFamilyByType(exports));
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return signature;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        if (key === "__esModule") continue;
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        signature.push(key);
+        signature.push(Refresh.getFamilyByType(exportValue));
+    }
+    return signature;
+}
+function registerExportsForReactRefresh(module1) {
+    var exports = module1.exports, id = module1.id;
+    Refresh.register(exports, id + " %exports%");
+    if (exports == null || typeof exports !== "object") // Exit if we can't iterate over exports.
+    // (This is important for legacy environments.)
+    return;
+    let isESM = "__esModule" in exports;
+    for(var key in exports){
+        var desc = Object.getOwnPropertyDescriptor(exports, key);
+        if (desc && desc.get && !isESM) continue;
+        var exportValue = exports[key];
+        var typeID = id + " %exports% " + key;
+        Refresh.register(exportValue, typeID);
+    }
+}
+
+},{"7422ead32dcc1e6b":"786KC"}],"iaSWX":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$fb8e = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -54945,9 +54945,9 @@ $RefreshReg$(_c1, "Details");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","@mui/material":"40376","/src/resources/data/data.json":"gmNau","@mui/material/Paper":"6IiTP","@mui/material/Grid":"c17UE","@mui/material/styles":"1lzai","/src/resources/icons/attachment.svg":"4BfcV"}],"4BfcV":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","@mui/material":"40376","react":"21dqq","/src/resources/data/data.json":"gmNau","@mui/material/Paper":"6IiTP","@mui/material/Grid":"c17UE","@mui/material/styles":"1lzai","/src/resources/icons/attachment.svg":"4BfcV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"4BfcV":[function(require,module,exports) {
 module.exports = require("9f4c62742751cf77").getBundleURL("lly8x") + "attachment.638533cd.svg" + "?" + Date.now();
 
-},{"9f4c62742751cf77":"lgJ39"}],"giGSC":[function() {},{}]},["j2WyO","1xC6H","2Ew96"], "2Ew96", "parcelRequire0cda")
+},{"9f4c62742751cf77":"lgJ39"}]},["j2WyO","1xC6H","2Ew96"], "2Ew96", "parcelRequire0cda")
 
 //# sourceMappingURL=index.7826abd7.js.map
